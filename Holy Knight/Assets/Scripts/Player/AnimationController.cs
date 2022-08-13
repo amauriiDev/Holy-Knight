@@ -21,10 +21,17 @@ public class AnimationController : MonoBehaviour
     public void RunStop(){
         anim.SetInteger(PARAM, idle);
     }
-    public void RunAttack(){
+    public void RunAttack1(){
          anim.SetInteger(PARAM, attack);
     }
+    public void RunAttack2(){
+         anim.SetInteger("attack", 1);
+    }
+    public void RunAttack3(){
+         anim.SetInteger("attack", 2);
+    }
     public void StopAttack(){
-         anim.SetInteger(PARAM, idle);
+        anim.SetInteger(PARAM, idle);
+        anim.SetInteger("attack", 0);
     }
 }
