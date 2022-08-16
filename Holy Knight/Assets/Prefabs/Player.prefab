@@ -141,7 +141,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackCombo: 0
-  jumpForce: 2
+  floatHeight: 10000
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!114 &2907099640279711672
 MonoBehaviour:
   m_ObjectHideFlags: 0

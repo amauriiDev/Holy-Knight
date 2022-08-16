@@ -370,10 +370,6 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8166762841939125638, guid: 444bcb6a699021c4fbf741df69c29049, type: 3}
-      propertyPath: m_Icon
-      value: 
-      objectReference: {fileID: 7250588514170254948, guid: 0000000000000000d000000000000000, type: 0}
-    - target: {fileID: 8166762841939125638, guid: 444bcb6a699021c4fbf741df69c29049, type: 3}
       propertyPath: m_Name
       value: Master
       objectReference: {fileID: 0}

@@ -15,7 +15,7 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Combo Attack",
+                    "name": "Attack",
                     "type": "Button",
                     "id": "33d469ec-98ea-4eb2-90f6-fd5460d26fe7",
                     "expectedControlType": "Button",
@@ -82,10 +82,10 @@
                     "name": "",
                     "id": "a4cf8857-d782-4432-80dc-608e23d295b7",
                     "path": "<Keyboard>/j",
-                    "interactions": "",
+                    "interactions": "Hold(duration=0.2)",
                     "processors": "",
                     "groups": "Gameplay",
-                    "action": "Combo Attack",
+                    "action": "Attack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

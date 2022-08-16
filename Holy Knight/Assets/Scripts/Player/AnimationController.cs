@@ -8,6 +8,7 @@ public class AnimationController : MonoBehaviour
     const int idle = 0;
     const int run = 1;
     const int attack = 2;
+    const int jump = 3;
     Animator anim;
 
     void Start()
@@ -18,11 +19,11 @@ public class AnimationController : MonoBehaviour
     public void RunStart(){
         anim.SetInteger(PARAM, run);
     }
-    public void RunStop(){
+    public void RunBase(){
         anim.SetInteger(PARAM, idle);
     }
     public void RunAttack1(){
-         anim.SetInteger(PARAM, attack);
+        anim.SetInteger(PARAM, attack);
     }
     public void RunAttack2(){
          anim.SetInteger("attack", 1);
@@ -32,6 +33,12 @@ public class AnimationController : MonoBehaviour
     }
     public void StopAttack(){
         anim.SetInteger(PARAM, idle);
-        anim.SetInteger("attack", 0);
+        //anim.SetInteger("attack", 0);
+    }
+    public void RunJump(){
+        anim.SetInteger(PARAM, jump);
+    }
+    public void StopJump(){
+        anim.SetInteger(PARAM, idle);
     }
 }

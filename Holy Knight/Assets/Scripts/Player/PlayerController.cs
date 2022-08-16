@@ -7,26 +7,35 @@ public class PlayerController : MonoBehaviour
 {
     Rigidbody2D rigid; AnimationController animationController;
 
-    const float speed = 1.5f; float AxisX; bool canRun;
+    const float initialSpeed = 1.5f;float speed; float AxisX; bool canRun;
 
     [SerializeField]int attackCombo; const int initialAttackCombo = 0; const float time2Attack = 0.5f;
 
-    [SerializeField] float jumpForce = 2.0f; bool isJumping;
-    private bool _canAttack, _attackPressed, attackAgain;
+    float jumpForce;
+    [SerializeField] float floatHeight = 0.1f; bool canJump;
+    private bool _canAttack, _isAttacking, attackAgain;
+
+    public LayerMask groundLayer;
+    const float distance2 = 0.34f;
     private const float attackDellay = 0.4f;
 
     public bool CanAttack { get => _canAttack; set => _canAttack = value; }
-    public bool AttackPressed { get => _attackPressed; set => _attackPressed = value; }
+    public bool IsAttacking { get => _isAttacking; set => _isAttacking = value; }
+
+
+    private void Awake() {
+        attackCombo = initialAttackCombo;
+        speed = initialSpeed;
+    }
 
     void Start()
     {
-        attackCombo = initialAttackCombo;
         AxisX = 0;
 
         canRun = true;
-        isJumping = false;
+        canJump = true;
         CanAttack = true;
-        AttackPressed = false;
+        IsAttacking = false;
         attackAgain = true;
 
         rigid = GetComponent<Rigidbody2D>();
@@ -46,13 +55,38 @@ public class PlayerController : MonoBehaviour
     {
         if (canRun)
         {
-            transform.position += new Vector3(AxisX * speed * Time.fixedDeltaTime, 0, 0);
+            transform.position += Vector3.right * (AxisX * speed * Time.fixedDeltaTime);
         }
 
-        if (isJumping)
+        //Dispara um Ray para baixo partindo da origem do player
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, -Vector2.up, distance2,groundLayer);
+        // SE colidir com a layer 'ground'
+        if (hit.collider != null)
         {
-            rigid.AddForce(new Vector2(0, jumpForce * Time.fixedDeltaTime));
+            //!Debug.Log(hit.collider.name);
+            // Calculate the distance from the surface and the "error" relative
+            // to the floating height.
+            float distance = Mathf.Abs(hit.point.y - transform.position.y);
+            //!PRINTDebug.Log(distance);
+            float heightError = floatHeight - distance;
+
+            //proporcional ao error menos a velocidade do objeto
+            jumpForce = heightError - rigid.velocity.y;
+
+            if (!canJump)
+            {
+                canJump= true;
+                rigid.AddForce(Vector2.up * jumpForce * Time.fixedDeltaTime);
+            }
+                // Apply the force to the rigidbody.
         }
+    }
+    void OnDrawGizmosSelected()
+    {
+        // Draws a 5 unit long red line in front of the object
+        Gizmos.color = Color.red;
+        Vector3 direction = transform.TransformDirection(new Vector2(0,-distance2));
+        Gizmos.DrawRay(transform.position, direction);
     }
 
     public void Movement(InputAction.CallbackContext content)
@@ -67,43 +101,24 @@ public class PlayerController : MonoBehaviour
         if (content.canceled)
         {
             canRun = false;
-            animationController.RunStop();
+            animationController.RunBase();
         }
     }
     
     public void Atack(InputAction.CallbackContext content)
     {
-        if (content.performed)
+        if (content.started && !IsAttacking)
         {
-            Debug.Log(attackAgain);
-            StartCoroutine(Delay2Return(time2Attack));
-            if (CanAttack && attackAgain)
-            {
-                CanAttack = false;
-                AttackPressed = true;
-                animationController.RunAttack1();
-            }
+            animationController.RunAttack1();
         }
-        //? OLD CODE
-        // if (content.performed && attackCombo == 0)
-        // {
-        //     attackCombo++;
-        //     StartCoroutine(ComboAttack());
-        // }
-        // else if (content.performed && attackCombo < 4)
-        // {
-        //     attackCombo++;
-        // }
-        // // else
-        // // {
-        // //     animationController.StopAttack();
-        // //     attackCombo = initialAttackCombo;
-        // // }
+ 
+        if (content.performed || content.canceled)
+        {
+            IsAttacking = false;
+            animationController.RunBase();
+        }
     }
 
-    public void AttackInputManager(){
-        CanAttack = !CanAttack;
-    }
 
     //TODO: REMOVER E COLOCAR NO ANIMATION
     // Method called by attack2 animation
@@ -152,15 +167,18 @@ public class PlayerController : MonoBehaviour
 
     public void Jump(InputAction.CallbackContext content)
     {
-        if (content.performed)
+        if (content.started && canJump)
         {
-            isJumping = true;
+            // PULAR E NAO PERMITIR PULAR NOVAMENTE
+            animationController.RunJump();
+            canJump = false;
         }
         if (content.canceled)
         {
-
-            isJumping = false;
-            
+            // SE SOLTAR O BOTAO É PERMITIDO PULAR NOVAMENTE
+            //TODO: remover essa opção
+            canJump = true;
+            animationController.StopJump();
         }
     }
 
