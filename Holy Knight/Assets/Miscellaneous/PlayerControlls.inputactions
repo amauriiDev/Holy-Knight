@@ -31,20 +31,18 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "ClimbLadder",
+                    "type": "Value",
+                    "id": "ca2d9417-1fb0-4b98-bb44-4b155b40d974",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
-                {
-                    "name": "",
-                    "id": "528c76a3-eb39-4486-bad1-4ba666584dea",
-                    "path": "",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gameplay",
-                    "action": "Movement",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
                 {
                     "name": "1D Axis",
                     "id": "6e0b158f-ea50-4b99-a7fa-fa26d2a5ce1d",
@@ -92,13 +90,46 @@
                 {
                     "name": "",
                     "id": "7ce00461-97b0-48ec-a5cf-695f0ef4f50e",
-                    "path": "<Keyboard>/w",
-                    "interactions": "",
+                    "path": "<Keyboard>/space",
+                    "interactions": "Hold",
                     "processors": "",
                     "groups": "Gameplay",
                     "action": "Jump",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "1D Axis",
+                    "id": "1daef9fb-55ba-4311-86bb-127e470954c2",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ClimbLadder",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "negative",
+                    "id": "5e7018f2-d7b4-4920-843d-6c721dd3de23",
+                    "path": "<Keyboard>/w",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ClimbLadder",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "positive",
+                    "id": "86e6ceb4-15f0-4224-a4bb-25dcfb8a65ba",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ClimbLadder",
+                    "isComposite": false,
+                    "isPartOfComposite": true
                 }
             ]
         }
